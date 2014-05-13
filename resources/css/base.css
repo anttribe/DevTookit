@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+body { background: #FFFFFF; font-size: 13px; width: 100%; }
+
+.pt5 { padding-top: 5px; }
+.pt10 { padding-top: 10px; }
+.pt20 { padding-top: 20px; }
+.pt50 { padding-top: 50px; }
+.pt80 { padding-top: 80px; }
+.pb10 { padding-bottom: 10px; }
+.pb20 { padding-bottom: 20px; }
+.pr10 { padding-right: 10px; }
