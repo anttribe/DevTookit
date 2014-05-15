@@ -23,6 +23,6 @@
     },
 
     "permissions": [
-        "http://*/"
+        "http://*/*"
     ]
 }

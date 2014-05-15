@@ -8,8 +8,7 @@
         <link rel="stylesheet" href="../../resources/css/base.css">
     </head>
     <body>
-        <div class="clearfix" style="padding: 10px;">
-            <!--<div class="alert alert-info"></div>-->
+        <div id="container" class="clearfix" style="padding: 10px;">
             <form role="form">
                 <div class="form-group">
                     <label for="rawJson">待格式化JSON:</label>
@@ -44,20 +43,7 @@
         </div>
         <script type="text/javascript" src="../../assets/jquery/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../../resources/js/common.js"></script>
         <script type="text/javascript" src="../../resources/js/jsonFormatter.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $("#jsonFormatBtn").click(function(event){
-                    //阻止浏览器默认事件
-                    event.preventDefault();
-
-                    //格式化json
-                    var json = $("this").jsonFormat($("#rawJson").val());
-                    if(json){
-                        $("#processedJson").val(json);
-                    }
-                });
-            });
-        </script>
     </body>
 </html>
