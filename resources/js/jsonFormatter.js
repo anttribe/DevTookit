@@ -37,7 +37,7 @@
             //默认选项
             this._options = {
                 indent: 4,  // 缩进量
-                indentChar:' ',  //缩进字符
+                indentChar: " ",  //缩进字符
                 quotes: true  // key是否使用引号
             };
             $.extend(this._options, options);
@@ -85,22 +85,63 @@
         _format:function(jsonObj, depth){
             var json = "";
 
+            // 缩进量字符串
             var indentStr = this._getIndent(depth);
-            if($.isArray(jsonObj)){
-                json += indentStr + symbols.leftBracket;
+
+            // json对象类型：对象、数组
+            var type = $.type(jsonObj);
+            if("array" == type){
+                json += symbols.leftBracket + symbols.newLine;
                 if(jsonObj.length>0){
-                    json = json + symbols.newLine;
                     for(var i=0; i<jsonObj.length; i++){
                         if(jsonObj[i]){
                             var subJsonObj = jsonObj[i];
-                            json = json + this._format(subJsonObj, (depth + 1));
+                            json += this._format(subJsonObj, (depth + 1));
                         }
                     }
                     json += symbols.newLine;
                 }
                 json += indentStr + symbols.rightBracket;
-            } else{
+            } else if("object" == type){
+                json += symbols.leftBrace + symbols.newLine;
 
+                var leng = 0;
+                for(property in jsonObj) {
+                    leng++;
+                }
+
+                var tempIndentStr = this._getIndent(depth + 1);
+                var index = 0;
+                for(property in jsonObj) {
+                    json += tempIndentStr;
+                    if(this._options.quotes){
+                        json += symbols.quote + property + symbols.quote;
+                    } else{
+                        json += property;
+                    }
+
+                    //属性值
+                    var value = jsonObj[property];
+                    json += symbols.colon + symbols.space + this._format(value, (depth + 1));
+
+                    if((index++)<leng - 1){
+                        json += symbols.comma;
+                    }
+                    json += symbols.newLine;
+                }
+                json += indentStr + symbols.rightBrace;
+            } else if("number" == type || "boolean" == type){
+                json += jsonObj;
+            } else if("function" == type){
+                var tempIndentStr = this._getIndent(depth + 1);
+                var funcArray = jsonObj.toString().split("\n");
+                for(var i=0; i<funcArray.length; i++){
+                    json += (i == 0 ? "" : (i == funcArray.length - 1 ? indentStr : tempIndentStr)) + funcArray[i] + (i <funcArray.length - 1 ? symbols.newLine : "");
+                }
+            } else if("undefined" == type){
+                json += symbols.quote + "undefined" + symbols.quote;
+            } else{
+                json += symbols.quote + jsonObj.toString() + symbols.quote;
             }
             return json;
         },
@@ -111,8 +152,8 @@
          */
         _getIndent: function(depth){
             var indentStr = "";
-            for(var i=0; i<depth; i++){
-                indentStr = indentStr + symbols.space;
+            for(var i=0; i<depth * this._options.indent; i++){
+                indentStr = indentStr + this._options.indentChar;
             }
             return indentStr;
         },
@@ -127,8 +168,7 @@
                 // 校验数据
                 //json = this._validate(rowString);
 
-                try
-                {
+                try{
                     // 格式化数据
                     var jsonObj = window.eval("(" + rowString + ")");
                     if(jsonObj) {
@@ -148,9 +188,14 @@
      */
     var symbols = {
         space: " ",  // 空格
+        comma: ",",  //逗号
+        colon: ":",  //冒号
+        quote: "\"",  //引号
         newLine: "\r\n",  // 换行
-        leftBracket: "[", //左括号
-        rightBracket: "]"  //右括号
+        leftBracket: "[", //左中括号
+        rightBracket: "]",  //右中括号
+        leftBrace: "{",  //左大括号
+        rightBrace: "}"  //右大括号
     };
 
     $(document).ready(function () {
@@ -162,10 +207,15 @@
             if (rawJson) {
                 var json = $("this").jsonFormat(rawJson, {
                     indent: $("#indent").val(),
-                    quotes: $("#quotes").val() == "on"
+                    quotes: $("#quotes").prop("checked")
                 });
                 if (json) {
-                    $("#processedJson").val(json);
+                    if($("#processedJson").length == 0){
+                        $("#canvas").append($("<pre>", {
+                            id: "processedJson"
+                        }));
+                    }
+                    $("#processedJson").html("" + json);
                 }
             }
         });

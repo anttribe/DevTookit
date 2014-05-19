@@ -10,3 +10,6 @@ body { background: #FFFFFF; font-size: 13px; width: 100%; }
 .pb10 { padding-bottom: 10px; }
 .pb20 { padding-bottom: 20px; }
 .pr10 { padding-right: 10px; }
+
+.w260 { width: 260px; }
+.h260 { height: 260px; }

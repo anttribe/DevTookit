@@ -12,7 +12,7 @@
             <form role="form">
                 <div class="form-group">
                     <label for="rawJson">待格式化JSON:</label>
-                    <textarea id="rawJson" class="form-control" rows="10"></textarea>
+                    <textarea id="rawJson" class="form-control" rows="12" style="resize: none;"></textarea>
                 </div>
                 <div class="form-inline pb10">
                     <div class="form-group">
@@ -29,15 +29,16 @@
                     <div class="form-group">
                         <div class="checkbox">
                             <label for="quotes">
-                                <input id="quotes" type="checkbox" />引号
+                                <input id="quotes" type="checkbox" checked />引号
                             </label>
                         </div>
                     </div>
                     <button id="jsonFormatBtn" class="btn btn-primary">格式化</button>
                 </div>
                 <div class="form-group">
-                    <label for="processedJson">格式化JSON:</label>
-                    <textarea id="processedJson" class="form-control" rows="10" readonly></textarea>
+                    <label>格式化JSON:</label>
+                    <div id="canvas" class="canvas well h260">
+                    </div>
                 </div>
             </form>
         </div>
