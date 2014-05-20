@@ -18,7 +18,8 @@
         "code":{
             tabbed:true,
             items:[
-                {id:"json", "name":"Json格式化", "action":"toolkit/code/jsonFormatter.html"}
+                {id:"xmlFormatter", "name":"XML格式化", "action":"toolkit/code/xmlFormatter.html"},
+                {id:"jsonFormmatter", "name":"Json格式化", "action":"toolkit/code/jsonFormatter.html"}
             ]
         },
         "webTool":{
