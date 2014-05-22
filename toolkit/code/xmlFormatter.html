@@ -11,32 +11,14 @@
         <div id="container" class="clearfix" style="padding: 10px;">
             <form role="form">
                 <div class="form-group">
-                    <label for="rawJson">待格式化JSON:</label>
-                    <textarea id="rawJson" class="form-control" rows="12" style="resize: none;"></textarea>
+                    <label for="rawXml">待格式化XML:</label>
+                    <textarea id="rawXml" class="form-control" rows="12" style="resize: none;"></textarea>
                 </div>
                 <div class="form-inline pb10">
-                    <div class="form-group">
-                        <label for="indent">缩进量:</label>
-                        <select id="indent" class="form-control">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4" selected="true">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label for="quotes">
-                                <input id="quotes" type="checkbox" checked />引号
-                            </label>
-                        </div>
-                    </div>
-                    <button id="jsonFormatBtn" class="btn btn-primary">格式化</button>
+                    <button id="xmlFormatBtn" class="btn btn-primary">格式化</button>
                 </div>
                 <div class="form-group">
-                    <label>格式化JSON:</label>
+                    <label>格式化XML:</label>
                     <div id="canvas" class="canvas well h260">
                     </div>
                 </div>
@@ -45,6 +27,6 @@
         <script type="text/javascript" src="../../assets/jquery/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="../../assets/bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="../../resources/js/common.js"></script>
-        <script type="text/javascript" src="../../resources/js/jsonFormatter.js"></script>
+        <script type="text/javascript" src="../../resources/js/xmlFormatter.js"></script>
     </body>
 </html>
