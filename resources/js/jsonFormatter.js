@@ -37,7 +37,7 @@
             //默认选项
             this._options = {
                 indent: 4,  // 缩进量
-                indentChar: " ",  //缩进字符
+                indentChar: ' ',  //缩进字符
                 quotes: true  // key是否使用引号
             };
             $.extend(this._options, options);
