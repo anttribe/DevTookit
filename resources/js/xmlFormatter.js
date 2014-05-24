@@ -108,12 +108,16 @@
                 if (xml) {
                     if($("#processedXml").length == 0){
                         $("#canvas").append($("<pre>", {
-                            id: "processedXml"
+                            id: "processedXml",
+                            "class": "prettyprint"
                         }));
                     }
                     // 由于xml中含有<, &, >等字符，html中会导致xml节点被认为是html元素，所以需要做escape处理
-                    xml = xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                    $("#processedXml").html("" + xml);
+                    var formatedXml = xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    $("#processedXml").html("" + formatedXml);
+
+                    // 美化代码展示
+                    prettyPrint();
                 }
             }
         });
