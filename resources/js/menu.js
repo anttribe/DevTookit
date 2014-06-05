@@ -26,6 +26,14 @@
             tabbed:true,
             items:[
             ]
+        },
+        "doc":{
+            tabbed:true,
+            items:[
+                {id:"jdk6-doc", "name":"JDK6中文文档", "action":"http://tool.oschina.net/uploads/apidocs/jdk-zh"},
+                {id:"jdk7-doc", "name":"JDK7英文文档", "action":"http://tool.oschina.net/uploads/apidocs/jdk_7u4"},
+                {id:"jquery-doc", "name":"jQuery 1.7.1", "action":"http://tool.oschina.net/uploads/apidocs/jquery"}
+            ]
         }
     };
     $(document).ready(function(){
