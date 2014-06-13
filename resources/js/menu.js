@@ -32,7 +32,8 @@
             items:[
                 {id:"jdk6-doc", "name":"JDK6中文文档", "action":"http://tool.oschina.net/uploads/apidocs/jdk-zh"},
                 {id:"jdk7-doc", "name":"JDK7英文文档", "action":"http://tool.oschina.net/uploads/apidocs/jdk_7u4"},
-                {id:"jquery-doc", "name":"jQuery 1.7.1", "action":"http://tool.oschina.net/uploads/apidocs/jquery"}
+                {id:"jquery-doc", "name":"jQuery 1.7.1", "action":"http://tool.oschina.net/uploads/apidocs/jquery"},
+                {id:"Extjs-4.1-doc", "name":"Extjs-4.1 中文API", "action":"http://extjs-doc-cn.github.io/ext4api/#!/api"}
             ]
         }
     };
