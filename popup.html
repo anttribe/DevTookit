@@ -11,12 +11,12 @@
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li action="index"><a href="#none" class="navbar-brand">开发者辅助工具箱</a></li>
-                    <li action="comparison"><a href="#none">常用对照表</a></li>
-                    <li action="code"><a href="#none">代码处理</a></li>
-                    <li action="webTool"><a href="#none">HTML|JS|CSS工具</a></li>
-                    <li action="doc"><a href="#none">常用文档</a></li>
+                <ul class="nav navbar-nav tabs">
+                    <li><a href="#index" class="navbar-brand">开发者辅助工具箱</a></li>
+                    <li><a href="#none">常用对照表</a></li>
+                    <li><a href="#codeTool">代码处理</a></li>
+                    <li><a href="#none">HTML|JS|CSS工具</a></li>
+                    <li><a href="#none">常用文档</a></li>
                 </ul>
             </div>
         </nav>
@@ -24,7 +24,9 @@
         <div class="clearfix"></div>
 
         <div class="pt80">
-            <div id="content" class="container">
+            <div class="tab-content">
+                <div id="index" src="index.html"></div>
+                <div id="codeTool" src="toolkit/codeTool/codeTool.html"></div>
             </div>
         </div>
 
@@ -41,6 +43,6 @@
 
         <script type="text/javascript" src="assets/jquery/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="resources/js/menu.js"></script>
+        <script type="text/javascript" src="resources/js/navigator.js"></script>
     </body>
 </html>
