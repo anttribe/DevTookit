@@ -42,6 +42,16 @@
             // 去除空格
             rowString = $.trim(rowString);
 
+            // 去除换行
+            var regex = /(\r|\n)/g;
+            rowString = rowString.replace(regex, '');
+
+            //去除> <之间的空格
+            regex = /(>)(\s)(<)/g;
+            rowString = rowString.replace(regex, '$1$2');
+
+            console.log(rowString);
+
             return rowString;
         },
         /**
