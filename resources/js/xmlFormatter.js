@@ -47,10 +47,11 @@
             rowString = rowString.replace(regex, '');
 
             //去除> <之间的空格
-            regex = /(>)(\s)(<)/g;
-            rowString = rowString.replace(regex, '$1$2');
+            regex = /(>)(\s*)(<)/g;
+            rowString = rowString.replace(regex, '$1$3');
 
-            console.log(rowString);
+            regex = /(\s+)(\s*)/g;
+            rowString = rowString.replace(regex, ' ');
 
             return rowString;
         },
@@ -119,10 +120,11 @@
                 if (xml) {
                     if($('#processedXml').length == 0){
                         $('#canvas').append($('<pre>', {
-                            id: 'processedXml',
-                            'class': 'prettyprint'
+                            id: 'processedXml'
                         }));
                     }
+                    $('#processedXml').attr({'class': 'prettyprint'});
+
                     // 由于xml中含有<, &, >等字符，html中会导致xml节点被认为是html元素，所以需要做escape处理
                     var formatedXml = xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                     $('#processedXml').html('' + formatedXml);
