@@ -19,16 +19,16 @@
                             $('<iframe>', {
                                 src: src,
                                 frameborder: 'no',
-                                height: '800',
                                 width: '100%',
                                 scrolling: 'no'
-                            }).bind('resize', function(){
+                            }).bind('load', function(){
                                 if(this.contentWindow){
                                     var contentHeight = Math.max(this.contentWindow.document.documentElement.scrollHeight, this.contentWindow.document.body.scrollHeight);
-                                    if(contentHeight){
-                                        alert(window);
-                                        window.height = $(this).height = contentHeight;
-                                    }
+                                    var windowHeight = Math.max(window.document.documentElement.scrollHeight, window.document.body.scrollHeight);
+                                    var maxHeight = Math.max(contentHeight, windowHeight);
+
+                                    $(this).attr('height', maxHeight);
+                                    $(window).attr('height', maxHeight);
                                 }
                             }).appendTo($(this));
                         }

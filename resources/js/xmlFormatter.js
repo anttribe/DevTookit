@@ -51,10 +51,10 @@
          */
         _format:function(rowString){
             var that = this;
-            var xml = "", regex = /(>)(<)(\/*)/g;
+            var xml = '', regex = /(>)(<)(\/*)/g;
             rowString = rowString.replace(regex, '$1\r\n$2$3');
             var depth = 0;
-            $.each(rowString.split("\r\n"), function(index, node){
+            $.each(rowString.split('\r\n'), function(index, node){
                 var indent = 0;
                 if(node.match(/.+<\/\w[^>]*>$/)){
                     indent = 0;
@@ -72,7 +72,7 @@
                 for(var i=0; i<depth * that._options.indent; i++){
                     indentStr += that._options.indentChar;
                 }
-                xml += indentStr + node + "\r\n";
+                xml += indentStr + node + '\r\n';
 
                 depth += indent;
             });
@@ -97,24 +97,25 @@
     };
 
     $(document).ready(function () {
-        $("#xmlFormatBtn").click(function (event) {
+        $('#xmlFormatBtn').click(function (event) {
             $(this).preventDefault(event);
 
             //格式化XML
-            var rawXml = $("#rawXml").val();
+            var rawXml = $('#rawXml').val();
             if (rawXml) {
-                var xml = $("this").xmlFormat(rawXml, {
+                var xml = $(this).xmlFormat(rawXml, {
                 });
+
                 if (xml) {
-                    if($("#processedXml").length == 0){
-                        $("#canvas").append($("<pre>", {
-                            id: "processedXml",
-                            "class": "prettyprint"
+                    if($('#processedXml').length == 0){
+                        $('#canvas').append($('<pre>', {
+                            id: 'processedXml',
+                            'class': 'prettyprint'
                         }));
                     }
                     // 由于xml中含有<, &, >等字符，html中会导致xml节点被认为是html元素，所以需要做escape处理
                     var formatedXml = xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                    $("#processedXml").html("" + formatedXml);
+                    $('#processedXml').html('' + formatedXml);
 
                     // 美化代码展示
                     prettyPrint();
