@@ -100,8 +100,10 @@
                 //预处理
                 xml = this._preFormat(rowString);
 
-                // 格式化字符串
-                xml = this._format(xml);
+                if(xml) {
+                    // 格式化字符串
+                    xml = this._format(xml);
+                }
             }
             return xml;
         }

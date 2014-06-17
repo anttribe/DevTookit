@@ -42,16 +42,34 @@
         };
     }();
 
+    /**
+     *符号定义
+     */
+    $symbols = function(){
+        return {
+            space: ' ',  // 空格
+            comma: ',',  //逗号
+            colon: ':',  //冒号
+            quote: '\"',  //引号
+            newLine: '\r\n',  // 换行
+            leftBracket: '[', //左中括号
+            rightBracket: ']',  //右中括号
+            leftBrace: '{',  //左大括号
+            rightBrace: '}'  //右大括号
+        };
+    }();
+
 
     /**
-     * 阻止浏览器默认事件和冒泡
+     * 阻止浏览器默认事件行为和冒泡
      * @param event
      */
     $.fn.preventDefault = function(event){
         event = event || window.event;
         if(event.preventDefault){
-            event.preventDefault();
+            //非IE浏览器
             event.stopPropagation();
+            event.preventDefault();
         } else{
             event.cancelBubble = true;
             event.returnValue = false;
