@@ -70,7 +70,7 @@
                 if(node.match(/.+<\/\w[^>]*>$/)){
                     indent = 0;
                 } else if(node.match(/^<\/\w/)){
-                    if(depth != 0){
+                    if(depth !== 0){
                         depth = depth -1;
                     }
                 } else if(node.match(/^<\w[^>]*[^\/]>.*$/)){
