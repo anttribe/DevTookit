@@ -47,7 +47,7 @@
      */
     $symbols = function(){
         return {
-            space: ' ',  // 空格
+            space: ' ',  //空格
             comma: ',',  //逗号
             colon: ':',  //冒号
             quote: '\"',  //引号

@@ -52,79 +52,79 @@
             // 去除空格
             rowString = $.trim(rowString);
 
-            //去除不以[或{开头的字符
-
-            // 在“[ ]”之前和之后增加一行
-            var regex = /([\[\]])/g;
-            rowString = rowString.replace(regex, '\r\n$1\r\n');
-
-            // 在“｛ ｝”之前和之后增加行
-            regex = /([\{\}])/g;
-            rowString = rowString.replace(regex, '\r\n$1\r\n');
-
-            // 逗号之后增加一行
-            regex = /(\,)/g;
-            rowString = rowString.replace(regex, '$1\r\n');
-
-            // 去除多余的换行
-            regex = /(\r\n)(\r\n)+/g;
-            rowString = rowString.replace(regex, '\r\n');
-
-            // 去除逗号前面的换行
-            regex = /(\r\n\,)/g;
-            rowString = rowString.replace(regex, ',');
-
-            //去除:{和:[中间的换行
-            //regex = /(\:)(\r\n)(\{|\[)/g;
-            //rowString = rowString.replace(regex, '$1$3');
-
-            //去除([或({或[{或]}或])或})之间的换行
-            //regex = /(\[|\(|\}|\])(\s*)(\{|\]|\}|\)|\[)/g;
-            //rowString = rowString.replace(regex, '$1$3');
-
-            //去除,{或,{或,(之间的换行, 增加一个空格
-            //regex = /(\,)(\s*)(\{|\]|\}|\))/g;
-            //rowString = rowString.replace(regex, '$1 $3');
-
-            //在:后面增加一个空格
-            //regex = /(\:)/g;
-            //rowString = rowString.replace(regex, ': ');
-
             return rowString;
         },
         /**
          * json格式化
-         * @param rowString 待格式化字符串
+         * @param jsonObj 待格式化字符串对应的js对象
+         * @param depth 解析级别，深度
          * @returns {string}
          * @private
          */
-        _format:function(rowString){
-            var that = this, json = '', depth = 0;
-            $.each(rowString.split('\r\n'), function(index, node){
-                node = $.trim(node);
-                if(node){
-                    var indent = 0;
-                    if (node.match(/(\{|\[)$/)) {
-                        indent = 1;
-                    } else if (node.match(/(\}|\])$/)) {
-                        if (depth !== 0) {
-                            depth -= 1;
+        _format:function(jsonObj, depth){
+            var json = '', that = this;
+            depth = depth || 0;
+
+            // json对象类型：对象、数组
+            var type = $.type(jsonObj);
+            if('array' == type){
+                json += $symbols.leftBracket + $symbols.newLine;
+                if(jsonObj.length>0){
+                    var length = jsonObj.length;
+                    for(var i=0; i<length; i++){
+                        if(jsonObj[i]){
+                            var subJsonObj = jsonObj[i];
+                            json += this._format(subJsonObj, (depth + 1));
+
+                            if(i<length-1){
+                                json += $symbols.comma;
+                            }
                         }
-                    } else {
-                        indent = 0;
                     }
-
-                    var indentStr = '';
-                    for(var i=0; i<depth * that._options.indent; i++){
-                        indentStr += that._options.indentChar;
-                    }
-                    json += indentStr + node + '\r\n';
-                    depth += indent;
+                    json += $symbols.newLine;
                 }
-            });
+                json += this._getIndent(depth) + $symbols.rightBracket;
+            } else if('object' == type){
+                json += this._getIndent(depth) + $symbols.leftBrace + $symbols.newLine;
 
-            if(json){
+                var index = 0, length = 0;
+                //计算js对象中name:value的个数
+                for(var prop in jsonObj){
+                    length++;
+                }
+                for(var prop in jsonObj) {
+                    json += this._getIndent(depth + 1);
+                    //属性name
+                    if(this._options.quotes){
+                        json += $symbols.quote + prop + $symbols.quote;
+                    } else{
+                        json += prop;
+                    }
 
+                    //属性值value
+                    var value = jsonObj[prop] || '';
+                    json += $symbols.colon + $symbols.space + this._format(value, (depth + 1));
+
+                    if((index++)<length - 1){
+                        json += $symbols.comma;
+                    }
+                    json += $symbols.newLine;
+                }
+                json += this._getIndent(depth) + $symbols.rightBrace;
+            } else if('number' == type || 'boolean' == type){
+                json += this._getIndent(depth) + jsonObj;
+            } else if('function' === type){
+                var array = jsonObj.toString().split('\n');
+                if(array && array.length>0){
+                    var length = array.length;
+                    for(var i=0; i<length; i++){
+                        json += that._getIndent(depth) + array[i] + $symbols.newLine;
+                    }
+                }
+            } else if('undefined' == type){
+                json += this._getIndent(depth) + $symbols.quote + 'undefined' + $symbols.quote;
+            } else{
+                json += this._getIndent(depth) + $symbols.quote + ('' + jsonObj) + $symbols.quote;
             }
             return json;
         },
@@ -134,7 +134,7 @@
          * @private
          */
         _getIndent: function(depth){
-            var indentStr = "";
+            var indentStr = '';
             for(var i=0; i<depth * this._options.indent; i++){
                 indentStr = indentStr + this._options.indentChar;
             }
@@ -151,7 +151,29 @@
                 // 预处理json
                 json = this._preFormat(rowString);
                 if(json){
-                    json = this._format(json);
+                    try{
+                        // 格式化数据
+                        var jsonObj = eval('(' + rowString + ')');
+                        if(jsonObj) {
+                            json = this._format(jsonObj);
+                            if(json){
+                                console.log(json);
+
+                                //去除多余的行
+                                var regex = /(\r\n)(\r\n)+/m;
+                                json = json.replace(regex, '\r\n');
+
+                                //去除:之后多余的空格
+                                regex = /(\:)(\s+)/g;
+                                json = json.replace(regex, '$1 ');
+
+                                //去除,{或,{或,(之间的换行, 增加一个空格
+                                regex = /(\,)(\s+)(\{|\[|\()/g;
+                                json = json.replace(regex, '$1 $3');
+                            }
+                        }
+                    } catch(e){
+                    }
                 }
             }
 
@@ -160,7 +182,7 @@
     };
 
     $(document).ready(function () {
-        $("#jsonFormatBtn").click(function (event) {
+        $('#jsonFormatBtn').click(function (event) {
             $(this).preventDefault(event);
 
             //格式化json
