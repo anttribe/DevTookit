@@ -3,6 +3,7 @@
  * XML格式化
  */
 (function($) {
+    'use strict';
     $.fn.xmlFormat = function(rowString, options) {
         return new xmlFormatter(options).format(rowString);
     };
@@ -125,7 +126,7 @@
                             id: 'processedXml'
                         }));
                     }
-                    $('#processedXml').attr({'class': 'prettyprint'});
+                    $('#processedXml').attr({'class': 'prettyprint Lang-xml linenums'});
 
                     // 由于xml中含有<, &, >等字符，html中会导致xml节点被认为是html元素，所以需要做escape处理
                     var formatedXml = xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

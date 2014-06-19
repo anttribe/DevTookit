@@ -3,6 +3,8 @@
  * json格式化
  */
 (function ($) {
+    'use strict';
+
     $.fn.jsonFormat = function(rowString, options) {
         return new jsonFormatter(options).format(rowString);
     };
@@ -112,7 +114,7 @@
                 }
                 json += this._getIndent(depth) + $symbols.rightBrace;
             } else if('number' == type || 'boolean' == type){
-                json += this._getIndent(depth) + jsonObj;
+                json += this._getIndent(depth) + jsonObj + $symbols.newLine;
             } else if('function' === type){
                 var array = jsonObj.toString().split('\n');
                 if(array && array.length>0){
@@ -157,8 +159,6 @@
                         if(jsonObj) {
                             json = this._format(jsonObj);
                             if(json){
-                                console.log(json);
-
                                 //去除多余的行
                                 var regex = /(\r\n)(\r\n)+/m;
                                 json = json.replace(regex, '\r\n');
@@ -199,7 +199,7 @@
                             id: 'processedJson'
                         }));
                     }
-                    $('#processedJson').attr({'class':'prettyprint'});
+                    $('#processedJson').attr({'class':'prettyprint Lang-json linenums'});
 
                     $('#processedJson').html('' + json);
 

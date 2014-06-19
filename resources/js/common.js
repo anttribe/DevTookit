@@ -2,10 +2,12 @@
  * Created by zhaoyong on 2014/5/13.
  */
 (function($){
+    'use strict';
+
     /**
      * 动态导入静态资源文件js/css
      */
-    $import = function(){
+    window.$import = function(){
         return function(){
             var argLength = arguments.length;
             if(argLength > 0){
@@ -45,7 +47,7 @@
     /**
      *符号定义
      */
-    $symbols = function(){
+    window.$symbols = function(){
         return {
             space: ' ',  //空格
             comma: ',',  //逗号
