@@ -5,7 +5,7 @@
 (function ($) {
     'use strict';
 
-    $.fn.jsonFormat = function(rowString, options) {
+    $.fn.jsonFormat = function (rowString, options) {
         return new jsonFormatter(options).format(rowString);
     };
 
@@ -14,7 +14,7 @@
      *
      * @param options 参数列表
      */
-    var jsonFormatter = function(options){
+    var jsonFormatter = function (options) {
         this._initial(options);
     };
     /**
@@ -27,7 +27,7 @@
          * @param options 参数选项
          * @private
          */
-        _initial:function(options){
+        _initial: function (options) {
             this._setOptions(options);
         },
         /**
@@ -35,7 +35,7 @@
          * @param options 参数选项
          * @private
          */
-        _setOptions:function(options){
+        _setOptions: function (options) {
             //默认选项
             this._options = {
                 indent: 4,  // 缩进量
@@ -50,129 +50,147 @@
          * @returns {string}
          * @private
          */
-        _preFormat:function(rowString){
+        _preFormat: function (rowString) {
             // 去除空格
             rowString = $.trim(rowString);
 
             return rowString;
         },
         /**
-         * json格式化
-         * @param jsonObj 待格式化字符串对应的js对象
-         * @param depth 解析级别，深度
-         * @returns {string}
+         * 预处理json对象
+         * @param jsonObj
          * @private
          */
-        _format:function(jsonObj, depth){
+        _preFormatObj: function (jsonObj) {
             var json = '', that = this;
-            depth = depth || 0;
-
             // json对象类型：对象、数组
             var type = $.type(jsonObj);
-            if('array' == type){
+            if ('array' == type) {
                 json += $symbols.leftBracket + $symbols.newLine;
-                if(jsonObj.length>0){
+                if (jsonObj.length > 0) {
                     var length = jsonObj.length;
-                    for(var i=0; i<length; i++){
-                        if(jsonObj[i]){
+                    for (var i = 0; i < length; i++) {
+                        if (jsonObj[i]) {
                             var subJsonObj = jsonObj[i];
-                            json += this._format(subJsonObj, (depth + 1));
-
-                            if(i<length-1){
+                            json += this._preFormatObj(subJsonObj);
+                            if (i < length - 1) {
                                 json += $symbols.comma;
                             }
                         }
                     }
                     json += $symbols.newLine;
                 }
-                json += this._getIndent(depth) + $symbols.rightBracket;
-            } else if('object' == type){
-                json += this._getIndent(depth) + $symbols.leftBrace + $symbols.newLine;
-
+                json += $symbols.rightBracket;
+            } else if ('object' == type) {
+                json += $symbols.leftBrace + $symbols.newLine;
                 var index = 0, length = 0;
                 //计算js对象中name:value的个数
-                for(var prop in jsonObj){
+                for (var prop in jsonObj) {
                     length++;
                 }
-                for(var prop in jsonObj) {
-                    json += this._getIndent(depth + 1);
-                    //属性name
-                    if(this._options.quotes){
-                        json += $symbols.quote + prop + $symbols.quote;
-                    } else{
-                        json += prop;
-                    }
+                for (var prop in jsonObj) {
+                    if (jsonObj.hasOwnProperty(prop)) {
+                        //属性name
+                        if (this._options.quotes) {
+                            json += $symbols.quote + prop + $symbols.quote;
+                        } else {
+                            json += prop;
+                        }
 
-                    //属性值value
-                    var value = jsonObj[prop] || '';
-                    json += $symbols.colon + $symbols.space + this._format(value, (depth + 1));
-
-                    if((index++)<length - 1){
-                        json += $symbols.comma;
+                        //属性值value
+                        var value = jsonObj[prop] || '';
+                        json += $symbols.colon + $symbols.space + this._preFormatObj(value);
+                        if ((index++) < length - 1) {
+                            json += $symbols.comma;
+                        }
+                        json += $symbols.newLine;
                     }
-                    json += $symbols.newLine;
                 }
-                json += this._getIndent(depth) + $symbols.rightBrace;
-            } else if('number' == type || 'boolean' == type){
-                json += this._getIndent(depth) + jsonObj + $symbols.newLine;
-            } else if('function' === type){
+                json += $symbols.rightBrace;
+            } else if ('number' == type || 'boolean' == type) {
+                json += jsonObj + $symbols.newLine;
+            } else if ('function' === type) {
                 var array = jsonObj.toString().split('\n');
-                if(array && array.length>0){
+                if (array && array.length > 0) {
                     var length = array.length;
-                    for(var i=0; i<length; i++){
-                        json += that._getIndent(depth) + array[i] + $symbols.newLine;
+                    for (var i = 0; i < length; i++) {
+                        json += array[i] + $symbols.newLine;
                     }
                 }
-            } else if('undefined' == type){
-                json += this._getIndent(depth) + $symbols.quote + 'undefined' + $symbols.quote;
-            } else{
-                json += this._getIndent(depth) + $symbols.quote + ('' + jsonObj) + $symbols.quote;
+            } else if ('undefined' == type) {
+                json += $symbols.quote + 'undefined' + $symbols.quote;
+            } else {
+                json += $symbols.quote + ('' + jsonObj) + $symbols.quote;
             }
             return json;
         },
         /**
-         * 得到缩进量字符串
-         * @param depth 深度
+         * json格式化
+         * @param jsonObj 待格式化字符串对应的js对象
+         * @returns {string}
          * @private
          */
-        _getIndent: function(depth){
-            var indentStr = '';
-            for(var i=0; i<depth * this._options.indent; i++){
-                indentStr = indentStr + this._options.indentChar;
+        _format: function (jsonObj) {
+            var json = '', preJson = this._preFormatObj(jsonObj), that = this;
+            if (preJson) {
+                var depth = 0;
+                $.each(preJson.split('\r\n'), function (index, node) {
+                    var indent = 0;
+
+                    node = node.trim();
+                    if (node) {
+                        if (node.match(/\{$/) || node.match(/\[$/)) {
+                            indent = 1;
+                        } else if (node.match(/\}/) || node.match(/\]/)) {
+                            if (depth !== 0) {
+                                depth -= 1;
+                            }
+                        } else {
+                            indent = 0;
+                        }
+
+                        var indentStr = '', length = depth * that._options.indent;
+                        for (var i = 0; i < length; i++) {
+                            indentStr += that._options.indentChar;
+                        }
+                        json += indentStr + node + '\r\n';
+                        depth += indent;
+                    }
+                });
+                if (json) {
+                    //去除多余的行
+                    var regex = /(\r\n)(\r\n)+/m;
+                    json = json.replace(regex, '\r\n');
+
+                    //去除:之后多余的空格
+                    regex = /(\:)(\s+)/g;
+                    json = json.replace(regex, '$1 ');
+
+                    //去除,{或,{或,(之间的换行, 增加一个空格
+                    regex = /(\,)(\s+)(\{|\[|\()/g;
+                    json = json.replace(regex, '$1 $3');
+                }
             }
-            return indentStr;
+            return json;
         },
         /**
          * json格式化
          * @param rowString json字符串
          * @returns {*}
          */
-        format:function(rowString){
+        format: function (rowString) {
             var json = null;
-            if(rowString){
+            if (rowString) {
                 // 预处理json
                 json = this._preFormat(rowString);
-                if(json){
-                    try{
+                if (json) {
+                    try {
                         // 格式化数据
                         var jsonObj = eval('(' + rowString + ')');
-                        if(jsonObj) {
+                        if (jsonObj) {
                             json = this._format(jsonObj);
-                            if(json){
-                                //去除多余的行
-                                var regex = /(\r\n)(\r\n)+/m;
-                                json = json.replace(regex, '\r\n');
-
-                                //去除:之后多余的空格
-                                regex = /(\:)(\s+)/g;
-                                json = json.replace(regex, '$1 ');
-
-                                //去除,{或,{或,(之间的换行, 增加一个空格
-                                regex = /(\,)(\s+)(\{|\[|\()/g;
-                                json = json.replace(regex, '$1 $3');
-                            }
                         }
-                    } catch(e){
+                    } catch (e) {
                     }
                 }
             }
@@ -194,14 +212,15 @@
                 });
 
                 if (json) {
-                    if($('#processedJson').length == 0){
-                        $('#canvas').append($('<pre>', {
+                    var processedJson = $('#processedJson');
+                    if (processedJson.length == 0) {
+                        processedJson = $('<pre>', {
                             id: 'processedJson'
-                        }));
+                        }).appendTo($('#canvas'));
                     }
-                    $('#processedJson').attr({'class':'prettyprint Lang-json linenums'});
+                    processedJson.attr({'class': 'prettyprint Lang-json linenums'});
 
-                    $('#processedJson').html('' + json);
+                    processedJson.html('' + json);
 
                     // 美化代码展示
                     prettyPrint();

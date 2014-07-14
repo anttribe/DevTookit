@@ -2,14 +2,14 @@
  * Created by zhaoyong on 14-5-22.
  * XML格式化
  */
-(function($) {
+(function ($) {
     'use strict';
-    $.fn.xmlFormat = function(rowString, options) {
+    $.fn.xmlFormat = function (rowString, options) {
         return new xmlFormatter(options).format(rowString);
     };
 
     // XMl格式化
-    var xmlFormatter = function(options){
+    var xmlFormatter = function (options) {
         this._initial(options);
     };
     xmlFormatter.prototype = {
@@ -18,7 +18,7 @@
          * @param options 参数对象
          * @private
          */
-        _initial:function(options){
+        _initial: function (options) {
             this._setOptions(options);
         },
         /**
@@ -26,7 +26,7 @@
          * @param options 参数对象
          * @private
          */
-        _setOptions:function(options){
+        _setOptions: function (options) {
             //默认选项
             this._options = {
                 indent: 4,  // 缩进量
@@ -39,7 +39,7 @@
          * @param rowString 待格式化字符串
          * @private
          */
-        _preFormat:function(rowString){
+        _preFormat: function (rowString) {
             // 去除空格
             rowString = $.trim(rowString);
 
@@ -61,27 +61,27 @@
          * @param rowString 待格式化字符串
          * @private
          */
-        _format:function(rowString){
+        _format: function (rowString) {
             var that = this;
             var xml = '', regex = /(>)(<)(\/*)/g;
             rowString = rowString.replace(regex, '$1\r\n$2$3');
             var depth = 0;
-            $.each(rowString.split('\r\n'), function(index, node){
+            $.each(rowString.split('\r\n'), function (index, node) {
                 var indent = 0;
-                if(node.match(/.+<\/\w[^>]*>$/)){
+                if (node.match(/.+<\/\w[^>]*>$/)) {
                     indent = 0;
-                } else if(node.match(/^<\/\w/)){
-                    if(depth !== 0){
-                        depth = depth -1;
+                } else if (node.match(/^<\/\w/)) {
+                    if (depth !== 0) {
+                        depth = depth - 1;
                     }
-                } else if(node.match(/^<\w[^>]*[^\/]>.*$/)){
+                } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
                     indent = 1;
-                } else{
+                } else {
                     indent = 0;
                 }
 
                 var indentStr = '';
-                for(var i=0; i<depth * that._options.indent; i++){
+                for (var i = 0; i < depth * that._options.indent; i++) {
                     indentStr += that._options.indentChar;
                 }
                 xml += indentStr + node + '\r\n';
@@ -95,13 +95,13 @@
          * 格式化xml字符串
          * @param rowString 待格式化字符串
          */
-        format:function(rowString){
+        format: function (rowString) {
             var xml = null;
-            if(rowString){
+            if (rowString) {
                 //预处理
                 xml = this._preFormat(rowString);
 
-                if(xml) {
+                if (xml) {
                     // 格式化字符串
                     xml = this._format(xml);
                 }
@@ -121,16 +121,17 @@
                 });
 
                 if (xml) {
-                    if($('#processedXml').length == 0){
-                        $('#canvas').append($('<pre>', {
+                    var processedXml = $('#processedXml');
+                    if (processedXml.length == 0) {
+                        processedXml = $('<pre>', {
                             id: 'processedXml'
-                        }));
+                        }).appendTo($('#canvas'));
                     }
-                    $('#processedXml').attr({'class': 'prettyprint Lang-xml linenums'});
+                    processedXml.attr({'class': 'prettyprint Lang-xml linenums'});
 
                     // 由于xml中含有<, &, >等字符，html中会导致xml节点被认为是html元素，所以需要做escape处理
                     var formatedXml = xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                    $('#processedXml').html('' + formatedXml);
+                    processedXml.html('' + formatedXml);
 
                     // 美化代码展示
                     prettyPrint();
