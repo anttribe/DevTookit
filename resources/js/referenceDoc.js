@@ -120,8 +120,31 @@
         {name:'Rhino', url:'http://tool.oschina.net/uploads/apidocs/rhino'},
         {name:'Ruby-1.9', url:'http://tool.oschina.net/uploads/apidocs/ruby-1.9.3-core'},
         {name:'Ruby-library', url:'http://tool.oschina.net/uploads/apidocs/ruby-library'},
-        {name:'', url:''},
-        {name:'Velocity 1.7', url:'http://tool.oschina.net/uploads/apidocs/velocity-1.7'}
+        {name:'Scala2.9', url:'http://tool.oschina.net/uploads/apidocs/scala-docs-2.9.2'},
+        {name:'ScalaTest', url:'http://tool.oschina.net/uploads/apidocs/scalatest-1.7.2'},
+        {name:'Shiro安全框架', url:'http://tool.oschina.net/uploads/apidocs/shiro-core-1.2.0'},
+        {name:'SLF4J', url:'http://tool.oschina.net/uploads/apidocs/slf4j'},
+        {name:'SmartGwt', url:'http://tool.oschina.net/uploads/apidocs/smartgwt'},
+        {name:'Smarty3中文手册', url:'http://tool.oschina.net/uploads/apidocs/smarty-doc-cn'},
+        {name:'Spring 3.1', url:'http://tool.oschina.net/uploads/apidocs/Spring-3.1.1'},
+        {name:'Spring for Android', url:'http://tool.oschina.net/uploads/apidocs/springforandroid'},
+        {name:'Spring Security 3.1.2', url:'http://tool.oschina.net/uploads/apidocs/spring-security-3.1.2/apidocs'},
+        {name:'Sqlite', url:'http://tool.oschina.net/uploads/apidocs/sqlite'},
+        {name:'Struts 1.x', url:'http://tool.oschina.net/uploads/apidocs/struts-1.3.10'},
+        {name:'Struts 2.x', url:'http://tool.oschina.net/uploads/apidocs/struts-2.3.4'},
+        {name:'Taperstry', url:'http://tool.oschina.net/uploads/apidocs/taperstry'},
+        {name:'Tomcat 7.0', url:'http://tool.oschina.net/uploads/apidocs/tomcat-7.0-doc'},
+        {name:'UIMA', url:'http://tool.oschina.net/uploads/apidocs/uima'},
+        {name:'Velocity 1.7', url:'http://tool.oschina.net/uploads/apidocs/velocity-1.7'},
+        {name:'VelocityTools2.0', url:'http://tool.oschina.net/uploads/apidocs/velocitytools2.0'},
+        {name:'WxWidgets', url:'http://tool.oschina.net/uploads/apidocs/wxwidgets/docs/mshtml/wx/wx_contents.html'},
+        {name:'Winpcap', url:'http://tool.oschina.net/uploads/apidocs/winpcap/html/main.html'},
+        {name:'Xerces2Java', url:'http://tool.oschina.net/uploads/apidocs/xerces2java'},
+        {name:'XMLBeans', url:'http://tool.oschina.net/uploads/apidocs/xmlbeans'},
+        {name:'YUI 3.5.1', url:'http://tool.oschina.net/uploads/apidocs/yui3.5.1/api'},
+        {name:'Zend Framework中文手册', url:'http://tool.oschina.net/uploads/apidocs/zend/manual/core/zh/manual.html'},
+        {name:'Zend Framework API', url:'http://tool.oschina.net/uploads/apidocs/zend/api/core'},
+        {name:'zTree3.2文档', url:'http://tool.oschina.net/uploads/apidocs/ztree3.2/api/API_cn.html'}
     ];
 
     // 数组排序方法
