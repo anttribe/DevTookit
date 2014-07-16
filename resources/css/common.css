@@ -6,4 +6,4 @@
 .nav-Alphabet-Source div { padding: 10px 0 0 0; border-bottom: 1px solid #eee; }
 .nav-Alphabet-Source div>strong { font-size: 30pt; color: #A00; }
 .nav-Alphabet-Source div>ul { }
-.nav-Alphabet-Source div>ul li { width: 160px; text-overflow: hidden; line-height: 22px; padding-left: 0; }
+.nav-Alphabet-Source div>ul li { min-width: 160px; line-height: 22px; padding: 0 0 4px 0; font-size: 14px; }
