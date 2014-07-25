@@ -13,8 +13,9 @@
             var href = $(this).children('a').attr('href');
             if (href) {
                 $('.tab-content').children('' + href + '').each(function () {
-                    if (!$(this).attr('initialized')) {
-                        var src = $(this).attr('src');
+                    var $this = $(this);
+                    if (!$this.attr('initialized')) {
+                        var src = $this.attr('src');
                         if (src) {
                             function iframeSelfAdaption(iframe) {
                                 if (iframe) {
@@ -24,22 +25,32 @@
                                         var maxHeight = Math.max(contentHeight, windowHeight);
                                         $(iframe).height(maxHeight);
                                         $(window).height(maxHeight);
+
+                                        if (window.frameElement) {
+                                            if ($(window.frameElement).is('iframe') && window.frameElement.contentWindow) {
+                                                contentHeight = Math.max(window.frameElement.contentWindow.document.documentElement.scrollHeight, window.frameElement.contentWindow.document.body.scrollHeight);
+                                                $(window.frameElement).height(contentHeight);
+                                            }
+                                        }
                                     }
-                                    var win = iframe.window;
-                                    console.log(win);
                                 }
-                            };
+                            }
+
                             $('<iframe>', {
                                 src: src,
                                 frameborder: 'no',
+                                marginheight: '10px',
                                 width: '100%',
-                                scrolling: 'no'
-                            }).bind('load', function () {
-                                iframeSelfAdaption(this);
-                            }).appendTo($(this));
+                                scrolling: 'no',
+                                seamless: 'seamless'
+                            }).bind({
+                                'load': function () {
+                                    iframeSelfAdaption(this);
+                                }
+                            }).appendTo($this);
                         }
 
-                        $(this).attr({'initialized': 'initialized'});
+                        $this.attr({'initialized': 'initialized'});
                     }
                     //当前页签显示
                     $(this).removeClass('hidden').addClass('show');
