@@ -17,25 +17,6 @@
                     if (!$this.attr('initialized')) {
                         var src = $this.attr('src');
                         if (src) {
-                            function iframeSelfAdaption(iframe) {
-                                if (iframe) {
-                                    if (iframe.contentWindow) {
-                                        var contentHeight = Math.max(iframe.contentWindow.document.documentElement.scrollHeight, iframe.contentWindow.document.body.scrollHeight);
-                                        var windowHeight = Math.max(window.document.documentElement.scrollHeight, window.document.body.scrollHeight);
-                                        var maxHeight = Math.max(contentHeight, windowHeight);
-                                        $(iframe).height(maxHeight);
-                                        $(window).height(maxHeight);
-
-                                        if (window.frameElement) {
-                                            if ($(window.frameElement).is('iframe') && window.frameElement.contentWindow) {
-                                                contentHeight = Math.max(window.frameElement.contentWindow.document.documentElement.scrollHeight, window.frameElement.contentWindow.document.body.scrollHeight);
-                                                $(window.frameElement).height(contentHeight);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
                             $('<iframe>', {
                                 src: src,
                                 frameborder: 'no',
@@ -45,7 +26,20 @@
                                 seamless: 'seamless'
                             }).bind({
                                 'load': function () {
-                                    iframeSelfAdaption(this);
+                                    if (this && this.contentWindow) {
+                                        var contentHeight = Math.max(this.contentWindow.document.documentElement.scrollHeight, this.contentWindow.document.body.scrollHeight);
+                                        var windowHeight = Math.max(window.document.documentElement.scrollHeight, window.document.body.scrollHeight);
+                                        var maxHeight = Math.max(contentHeight, windowHeight);
+                                        $(this).height(maxHeight);
+                                        $(window).height(maxHeight);
+
+                                        if (window.frameElement) {
+                                            if ($(window.frameElement).is('iframe') && window.frameElement.contentWindow) {
+                                                contentHeight = Math.max(window.frameElement.contentWindow.document.documentElement.scrollHeight, window.frameElement.contentWindow.document.body.scrollHeight);
+                                                $(window.frameElement).height(contentHeight);
+                                            }
+                                        }
+                                    }
                                 }
                             }).appendTo($this);
                         }
