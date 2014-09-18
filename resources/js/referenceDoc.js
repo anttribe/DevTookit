@@ -220,7 +220,7 @@
                     var ul = $('<ul>', {
                         'class': 'list-inline'
                     }).appendTo($('<div>', {
-                        //name: '' + key,
+                        name: '' + key,
                         html:[
                             $('<a>', { id: '' + key, name: '' + key }),
                             $('<strong>', { html: '' + key })
