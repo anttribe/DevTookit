@@ -59,69 +59,72 @@
             var regex = /\s+/g;
             rowString = rowString.replace(regex, ' ');
             //处理原始字符串,在可能的分割处添加分割标志
-            regex = /\'/ig;
-            rowString = rowString.replace(regex, '~::~\'')
-                .replace(/ AND /ig, "~::~" + that._getIndentStr(2) + "AND ")
-                .replace(/ BETWEEN /ig, "~::~" + that._getIndentStr(1) + "BETWEEN ")
-                .replace(/ CASE /ig, "~::~" + that._getIndentStr(1) + "CASE ")
-                .replace(/ ELSE /ig, "~::~" + that._getIndentStr(1) + "ELSE ")
-                .replace(/ END /ig, "~::~" + that._getIndentStr(1) + "END ")
-                .replace(/ FROM /ig, "~::~FROM ")
-                .replace(/ GROUP\s{1,}BY/ig, "~::~GROUP BY ")
-                .replace(/ HAVING /ig, "~::~HAVING ")
-                //.replace(/ SET /ig," SET~::~")
-                .replace(/ IN /ig, " IN ")
-                .replace(/ JOIN /ig, "~::~JOIN ")
-                .replace(/ CROSS~::~{1,}JOIN /ig, "~::~CROSS JOIN ")
-                .replace(/ INNER~::~{1,}JOIN /ig, "~::~INNER JOIN ")
-                .replace(/ LEFT~::~{1,}JOIN /ig, "~::~LEFT JOIN ")
-                .replace(/ RIGHT~::~{1,}JOIN /ig, "~::~RIGHT JOIN ")
-                .replace(/ ON /ig, "~::~" + that._getIndentStr(1) + "ON ")
-                .replace(/ OR /ig, "~::~" + that._getIndentStr(2) + "OR ")
-                .replace(/ ORDER\s{1,}BY/ig, "~::~ORDER BY ")
-                .replace(/ OVER /ig, "~::~" + that._getIndentStr(1) + "OVER ")
-                .replace(/\(\s{0,}SELECT /ig, "~::~(SELECT ")
-                .replace(/\)\s{0,}SELECT /ig, ")~::~SELECT ")
-                .replace(/ THEN /ig, " THEN~::~" + that._getIndentStr(1) + "")
-                .replace(/ UNION /ig, "~::~UNION~::~")
-                .replace(/ USING /ig, "~::~USING ")
-                .replace(/ WHEN /ig, "~::~" + that._getIndentStr(1) + "WHEN ")
-                .replace(/ WHERE /ig, "~::~WHERE ")
-                .replace(/ WITH /ig, "~::~WITH ")
-                //.replace(/\,\s{0,}\(/ig,",~::~( ")
-                //.replace(/\,/ig,",~::~"+tab+tab+"")
-                .replace(/ ALL /ig, " ALL ")
-                .replace(/ AS /ig, " AS ")
-                .replace(/ ASC /ig, " ASC ")
-                .replace(/ DESC /ig, " DESC ")
-                .replace(/ DISTINCT /ig, " DISTINCT ")
-                .replace(/ EXISTS /ig, " EXISTS ")
-                .replace(/ NOT /ig, " NOT ")
-                .replace(/ NULL /ig, " NULL ")
-                .replace(/ LIKE /ig, " LIKE ")
-                .replace(/\s{0,}SELECT /ig, "SELECT ")
-                .replace(/\s{0,}UPDATE /ig, "UPDATE ")
-                .replace(/ SET /ig, " SET ")
-                .replace(/~::~{1,}/g, "~::~");
+            rowString = rowString.replace(/AND(\s+)/ig, '\r\n' + 'AND ')
+                .replace(/BETWEEN(\s+)/ig, '\r\n' + 'BETWEEN ')
+                .replace(/CASE(\s+)/ig, '\r\n' + 'CASE ')
+                .replace(/ELSE(\s+)/ig, '\r\n' + 'ELSE ')
+                .replace(/END(\s+)/ig, '\r\n' + 'END ')
+                .replace(/FROM(\s+)/ig, '\r\nFROM ')
+                .replace(/GROUP(\s+)BY(\s+)/ig, '\r\nGROUP BY ')
+                .replace(/HAVING(\s+)/ig, '\r\nHAVING ')
+                //.replace(/SET(\s+)/ig,' SET\r\n')
+                .replace(/IN(\s+)/ig, ' IN ')
+                .replace(/JOIN(\s+)/ig, '\r\nJOIN ')
+                .replace(/CROSS\r\n(\s+)JOIN(\s+)/ig, '\r\nCROSS JOIN ')
+                .replace(/INNER\r\n(\s+)JOIN(\s+)/ig, '\r\nINNER JOIN ')
+                .replace(/LEFT\r\n(\s+)JOIN(\s+)/ig, '\r\nLEFT JOIN ')
+                .replace(/RIGHT\r\n(\s+)JOIN(\s+)/ig, '\r\nRIGHT JOIN ')
+                .replace(/ON(\s+)/ig, '\r\n' + 'ON ')
+                .replace(/OR(\s+)/ig, '\r\n' + 'OR ')
+                .replace(/ORDER(\s+)BY(\s+)/ig, '\r\nORDER BY ')
+                .replace(/OVER(\s+)/ig, '\r\n' + 'OVER ')
+                .replace(/\((\s+)SELECT(\s+)/ig, '\r\n(SELECT ')
+                .replace(/\)(\s+)SELECT(\s+)/ig, ')\r\nSELECT ')
+                .replace(/THEN(\s+)/ig, ' THEN\r\n' + '')
+                .replace(/UNION(\s+)/ig, '\r\nUNION\r\n')
+                .replace(/USING(\s+)/ig, '\r\nUSING ')
+                .replace(/WHEN(\s+)/ig, '\r\n' + 'WHEN ')
+                .replace(/WHERE(\s+)/ig, '\r\nWHERE ')
+                .replace(/WITH(\s+)/ig, '\r\nWITH ')
+                //.replace(/\,(\s*)\(/ig, ',\r\n( ')
+                //.replace(/\,/ig,',\r\n'+tab+tab+'')
+                .replace(/(\s*)ALL(\s+)/ig, ' ALL ')
+                .replace(/(\s*)AS(\s+)/ig, ' AS ')
+                .replace(/(\s*)ASC(\s+)/ig, ' ASC ')
+                .replace(/(\s*)DESC(\s+)/ig, ' DESC ')
+                .replace(/(\s*)DISTINCT(\s+)/ig, ' DISTINCT ')
+                .replace(/(\s*)EXISTS/ig, ' EXISTS ')
+                .replace(/(\s*)NOT(\s+)/ig, ' NOT ')
+                .replace(/(\s*)NULL(\s+)/ig, ' NULL ')
+                .replace(/(\s*)LIKE(\s+)/ig, ' LIKE ')
+                .replace(/(\s*)SELECT(\s+)/ig, 'SELECT ')
+                .replace(/(\s*)UPDATE/ig, 'UPDATE ')
+                .replace(/(\s*)SET(\s+)/ig, ' SET ')
+                .replace(/\r\n+/g, '\r\n');
 
             return rowString;
         },
         /**
          * 计算缩进字符
          * @param depth 深度
+         * @param referenceStr 参考字符串
          * @returns {string}
          * @private
          */
-        _getIndentStr: function (depth) {
-            var that = this;
-            if (!depth) {
-                depth = 1;
-            }
-            var indentStr = '';
-            for (var i = 0; i < depth * that._options.indent; i++) {
+        _getIndentStr: function (depth, referenceStr) {
+            var that = this, indentStr = '', length = depth * that._options.indent + (referenceStr ? referenceStr.length : 0);
+            for (var i = 0; i < length; i++) {
                 indentStr += that._options.indentChar;
             }
             return indentStr;
+        },
+        /**
+         * 判断是否是子查询
+         *
+         * @param rowString 原始字符串
+         * @param depth 深度
+         */
+        isSubquery: function (rowString, depth) {
         },
         /**
          * sql格式化
@@ -130,38 +133,30 @@
          * @private
          */
         _format: function (rowString) {
-            var that = this;
-            var sql = '', regex = /\'/ig;
-            var depth = 0;
-            $.each(rowString.split('~::~'), function (index, node) {
+            var that = this, sql = '', depth = 0, referenceStr = '';
+            $.each(rowString.split('\r\n'), function (index, node) {
                 console.log(node);
-                depth = isSubquery(node, depth);
 
-                if (/\s{0,}\s{0,}SELECT\s{0,}/.exec(node)) {
-                    node = node.replace(/\,/g, ", \n" + that._getIndentStr(2) + "");
+                var indent = 0;
+                //depth = that.isSubquery(node, depth);
+                if (node.match(/\s*SELECT\s*/)) {
+                    indent = 1;
+                    node = node.replace(/\,/g, ', \r\n' + that._getIndentStr(depth, 'SELECT'));
+                } else if (node.match(/(\s*)SET(\s*)/)) {
+                    node = node.replace(/\,/g, ',\n' + that._getIndentStr(depth, 'SET') + '');
+                } else if (node.match(/\s*\(\s*SELECT\s*}/)) {
+                    depth++;
                 }
 
-                if (/\s{0,}\s{0,}SET\s{0,}/.exec(node)) {
-                    node = node.replace(/\,/g, ",\n" + that._getIndentStr(2) + "");
+                var indentStr = '';
+                for (var i = 0; i < depth * that._options.indent; i++) {
+                    indentStr += that._options.indentChar;
                 }
+                sql += indentStr + node + '\r\n';
 
-                if (/\s{0,}\(\s{0,}SELECT\s{0,}/.exec(node)) {
-                    deep++;
-                    str += this.shift[deep] + ar[ix];
-                } else if (/\'/.exec(ar[ix])) {
-                    if (parenthesisLevel < 1 && deep) {
-                        deep--;
-                    }
-                    str += ar[ix];
-                }
-                else {
-                    str += this.shift[deep] + ar[ix];
-                    if (parenthesisLevel < 1 && deep) {
-                        deep--;
-                    }
-                }
+                depth += indent;
             });
-            sql = sql.replace(/^\n{1,}/, '').replace(/\n{1,}/g, "\n");
+            sql = sql.replace(/^\n+/, '').replace(/\n+/g, '\n');
 
             return sql;
         },
