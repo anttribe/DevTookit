@@ -31,7 +31,8 @@
                                         var windowHeight = Math.max(window.document.documentElement.scrollHeight, window.document.body.scrollHeight);
                                         var maxHeight = Math.max(contentHeight, windowHeight);
                                         $(this).height(maxHeight);
-                                        $(window).height(maxHeight);
+                                        $(window).height(maxHeight).scrollTop(0);
+                                        $(this.contentWindow).height(maxHeight).scrollTop(0);
 
                                         if (window.frameElement) {
                                             if ($(window.frameElement).is('iframe') && window.frameElement.contentWindow) {
