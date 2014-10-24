@@ -92,7 +92,7 @@
                             if (data) {
                                 for (var j = 0; j < headers.length; j++) {
                                     $tds.push($('<td>', {
-                                        html: data[headers[j]] || ''
+                                        text: data[headers[j]] || ''
                                     }));
                                 }
                             }
