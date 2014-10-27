@@ -105,7 +105,7 @@
                             }
                         }
 
-                        if ($tds.length <= that._options.rowGroup * headers.length) {
+                        if ($tds.length>0 && $tds.length <= that._options.rowGroup * headers.length) {
                             for (var i = that._options.rowGroup * headers.length - $tds.length; i > 0; i--) {
                                 $tds.push($('<td>', {}));
                             }
