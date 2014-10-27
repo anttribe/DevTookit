@@ -70,42 +70,53 @@
                 })
             });
 
-            var $tbody = $('<tbody>', {
-                html: function () {
-                    var $trs = [];
+            if (datas && datas.length > 0) {
+                var $tbody = $('<tbody>', {
+                    html: function () {
+                        var $trs = [];
 
-                    // 将headers的key拼接
-                    var headers = [];
-                    var leng = that._options.headers.length;
-                    for (var i = 0; i < leng; i++) {
-                        if (that._options.headers[i]) {
-                            headers.push(that._options.headers[i].name);
-                        }
-                    }
-
-                    that._options.rowGroup = that._options.rowGroup || 1;
-                    leng = datas.length;
-                    var $tds = [];
-                    for (var i = 0; i < leng; i++) {
-                        var data = datas[i];
-                        if (data) {
-                            for (var j = 0; j < headers.length; j++) {
-                                $tds.push($('<td>', {
-                                    html: data[headers[j]] || ''
-                                }));
+                        // 将headers的key拼接
+                        var headers = [];
+                        var leng = that._options.headers.length;
+                        for (var i = 0; i < leng; i++) {
+                            if (that._options.headers[i]) {
+                                headers.push(that._options.headers[i].name);
                             }
                         }
 
-                        if ((i + 1 ) % that._options.rowGroup == 0) {
+                        that._options.rowGroup = that._options.rowGroup || 1;
+                        leng = datas.length;
+                        var $tds = [];
+                        for (var i = 0; i < leng; i++) {
+                            var data = datas[i];
+                            if (data) {
+                                for (var j = 0; j < headers.length; j++) {
+                                    $tds.push($('<td>', {
+                                        html: data[headers[j]] || ''
+                                    }));
+                                }
+                            }
+
+                            if ((i + 1 ) % that._options.rowGroup == 0) {
+                                $trs.push($('<tr>', {
+                                    html: $tds
+                                }));
+                                $tds = [];
+                            }
+                        }
+
+                        if ($tds.length <= that._options.rowGroup * headers.length) {
+                            for (var i = that._options.rowGroup * headers.length - $tds.length; i > 0; i--) {
+                                $tds.push($('<td>', {}));
+                            }
                             $trs.push($('<tr>', {
                                 html: $tds
                             }));
-                            $tds = [];
                         }
+                        return $trs;
                     }
-                    return $trs;
-                }
-            }).appendTo($table);
+                }).appendTo($table);
+            }
 
             return $table;
         },
@@ -114,9 +125,7 @@
          * @param datas 数据
          */
         populate: function (datas) {
-            if (datas && datas.length > 0) {
-                return this._populate(datas);
-            }
+            return this._populate(datas);
         }
     };
 })(jQuery);
