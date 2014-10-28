@@ -3,6 +3,8 @@
  * ASCII对照表
  */
 (function ($) {
+    'use strict';
+
     $(document).ready(function () {
         var ASCIIData = [
             {ascii: '0', character: 'NUL 空字符（Null）'},

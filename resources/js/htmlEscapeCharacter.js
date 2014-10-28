@@ -3,6 +3,8 @@
  * Html转义字符
  */
 (function ($) {
+    'use strict';
+
     $(document).ready(function () {
         var htmlEscapeCharacterCommonData = [
             {character: '"', decimal: '&#34;', escape: '&quot;'},
