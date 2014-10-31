@@ -156,9 +156,7 @@
             ],
             rowGroup: 1
         }, javaOperatorData);
-    });
 
-    $(document).ready(function () {
         $('#CPlusOperator').populateGrid({
             headers: [
                 {header: '优先级', name: 'precedence'},
@@ -167,9 +165,7 @@
             ],
             rowGroup: 1
         }, C$OperatorData);
-    });
 
-    $(document).ready(function () {
         $('#COperator').populateGrid({
             headers: [
                 {header: '优先级', name: 'precedence'},
@@ -179,9 +175,7 @@
             ],
             rowGroup: 1
         }, COperatorData);
-    });
 
-    $(document).ready(function () {
         $('#phpaOperator').populateGrid({
             headers: [
                 {header: '优先级', name: 'precedence'},
@@ -191,9 +185,7 @@
             ],
             rowGroup: 1
         }, phpaOperatorData);
-    });
 
-    $(document).ready(function () {
         $('#pythonOperator').populateGrid({
             headers: [
                 {header: '优先级', name: 'precedence'},

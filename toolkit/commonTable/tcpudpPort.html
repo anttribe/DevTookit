@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>TCP/UDP常见端口</title>
+        <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../../resources/css/base.css">
+        <link rel="stylesheet" href="../../resources/css/common.css">
+    </head>
+    <body>
+        <div class="container_fluid" style="padding: 10px;">
+            <div class="alert alert-info" role="alert">
+                <p>下面的表格中列举了包括在红帽企业 Linux 中的服务、守护进程、和程序所使用的最常见的通信端口。</p>
+                <p>该列表还可以在 /etc/services 文件中找到。要查看由互联网号码分派局（IANA）制定的“著名的已注册动态端口”官方列表，请参考以下 URL：http://www.iana.org/assignments/port-numbers</p>
+                <p>“层”是指服务或协议在交通层上使用 TCP 还是 UDP。若没有列举，这个服务或协议就两者都使用。</p>
+            </div>
+
+            <div id="commonPort" class="clearfix" style="padding: 10px;">
+                <h3>常见端口</h3>
+            </div>
+
+            <div id="unixPort" class="clearfix" style="padding: 10px;">
+                <h3>UNIX 特有的端口</h3>
+                <p>以下端口是 UNIX 特有的，涉及了从电子邮件到验证不等的服务。在方括号内的名称（如 [service]）是服务的守护进程名称或它的常用别名。</p>
+            </div>
+
+            <div id="registerPort" class="clearfix" style="padding: 10px;">
+                <h3>注册的端口</h3>
+                <p>列举了由网络和软件社区向 IANA 提交的要在端口号码列表中正式注册的端口。</p>
+            </div>
+
+            <div id="datagramPort" class="clearfix" style="padding: 10px;">
+                <h3>数据报传递协议端口</h3>
+                <p>显示了一个和数据报传递协议（DDP）有关的端口列表。DDP 在 AppleTalk 网络上被使用。</p>
+            </div>
+
+            <div id="kerberosPort" class="clearfix" style="padding: 10px;">
+                <h3>Kerberos（工程 Athena/MIT）端口</h3>
+                <p>和 Kerberos 网络验证协议相关的端口列表。在标记的地方，v5 代表 Kerberos 版本5协议。注意，这些端口没有在 IANA 注册。</p>
+            </div>
+
+            <div id="unregisterPort" class="clearfix" style="padding: 10px;">
+                <h3>未注册的端口</h3>
+                <p>一个未注册的端口列表。这些端口可能被安装在你的红帽企业 Linux 系统上的服务或协议使用，或者它们是在红帽企业 Linux 和运行其它操作系统的机器通信所必需的端口。</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="../../assets/jquery/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../../resources/js/populateGrid.js"></script>
+        <script type="text/javascript" src="../../resources/js/tcpudpPort.js"></script>
+    </body>
+</html>
