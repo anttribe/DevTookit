@@ -34,7 +34,8 @@
                     {header: '', name: 'name'},
                     {header: '', name: 'value'}
                 ],
-                rowGroup: 1 //一行显示几组数据(一组数据表示一个object)
+                rowGroup: 1, //一行显示几组数据(一组数据表示一个object)
+                text: true  //展示使用html还是text
             };
             $.extend(this._options, options);
         },
@@ -91,9 +92,13 @@
                             var data = datas[i];
                             if (data) {
                                 for (var j = 0; j < headers.length; j++) {
-                                    $tds.push($('<td>', {
-                                        text: data[headers[j]] || ''
-                                    }));
+                                    var $td = $('<td>');
+                                    if (that._options.text) {
+                                        $td.text(data[headers[j]] || '');
+                                    } else {
+                                        $td.html(data[headers[j]] || '');
+                                    }
+                                    $tds.push($td);
                                 }
                             }
 
@@ -105,7 +110,7 @@
                             }
                         }
 
-                        if ($tds.length>0 && $tds.length <= that._options.rowGroup * headers.length) {
+                        if ($tds.length > 0 && $tds.length <= that._options.rowGroup * headers.length) {
                             for (var i = that._options.rowGroup * headers.length - $tds.length; i > 0; i--) {
                                 $tds.push($('<td>', {}));
                             }
