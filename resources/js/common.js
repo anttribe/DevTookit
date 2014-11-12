@@ -61,6 +61,36 @@
         };
     }();
 
+    // 图片自动缩放大小
+    window.imageAutoResize = function(maxWidth, maxHeight, imgId) {
+        if(imgId){
+            var imgObj = $('#' + imgId);
+            if(imgObj){
+                var img = new Image();
+                img.src = $(imgObj).attr('src');
+                var ratio = 1, w = img.width, h = img.height;
+                var wRatio = maxWidth / w;
+                var hRatio = maxHeight / h;
+                if (maxWidth == 0 && maxHeight == 0) {
+                    ratio = 1;
+                } else if (maxWidth == 0) {
+                    if (hRatio < 1)
+                        ratio = hRatio;
+                } else if (maxHeight == 0) {
+                    if (wRatio < 1)
+                        ratio = wRatio;
+                } else if (wRatio < 1 || hRatio < 1) {
+                    ratio = (wRatio <= hRatio ? wRatio : hRatio);
+                }
+                if (ratio < 1) {
+                    w = w * ratio;
+                    h = h * ratio;
+                }
+                imgObj.height(h);
+                imgObj.width(w);
+            }
+        }
+    };
 
     /**
      * 阻止浏览器默认事件行为和冒泡
