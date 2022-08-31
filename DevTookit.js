@@ -3,7 +3,7 @@
  */
 (function(){
     DevToolkit = {
-        version: '1.0',
+        version: '1.2',
         name: '开发者辅助工具箱'
     };
 })();
